@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0">
+    <title>Aurora</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css">
+    <!-- Custom css -->
+    <link href="css/stylesheet1.css" rel="stylesheet">
+    <link href="css/general.css" rel="stylesheet">
+    <link href="css/styleHP.css" rel="stylesheet">
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+<body>
+<nav class="navbar navbar-default aurora-transperant-header navbar-static-top">
+    <div class="container">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#my-navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">AURORA</a>
+        </div>
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="my-navbar">
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="#" class="active">Home</a></li>
+                <li>
+                    <a href="#">My Account</a>
+                </li>
+                <li>
+                    <a href="#">Sign Out</a>
+                </li>
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<header id="myCarousel" class="carousel slide" data-pause="false" data-wrap="true">
+    <div class="carousel-inner">
+        <div class="item">
+            <div class="carousel-bg" style="background-image:url('pictures/usa.jpg');"></div>
+        </div>
+        <div class="item">
+            <div class="carousel-bg" style="background-image:url('pictures/india2.jpg');"></div>
+        </div>
+        <div class="item active">
+            <div class="carousel-bg" style="background-image:url('pictures/china.jpg');"></div>
+        </div>
+    </div>
+    <div class="carousel-caption my-caption">
+        <h3 class="section-heading" style="color: white;">Create your dream trip!</h3>
+    </div>
+    <div class="carousel-caption my-searchbar">
+        <div class="input-group">
+            <input id="searchbar" type="text" class="form-control" placeholder="Dream destinations" aria-describedby="basic-addon" list="countries">
+            <datalist id="countries">
+                <option value="China">
+                </option><option value="India">
+            </option><option value="United States of America">
+            </option></datalist>
+
+            <span  onclick="search()" class="input-group-btn" id="basic-addon"><a  href="#" style="width: 100%" class="btn btn-block btn-info"><span class="glyphicon glyphicon-search"></span>Search</a></span>
+        </div>
+    </div>
+</header>
+<footer class="my-footer">
+    <nav class="navbar navbar-default" style="margin-top: -3.5em; opacity: 0.7;">
+        <div>
+            <a href="#useit"><i class="material-icons">arrow_downward</i></a>
+        </div>
+    </nav>
+</footer>
+<div id="useit" class="content-section-b" style="margin-top: -1.5em;">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-6 pull-right wow fadeInRightBig">
+                <img class="img-responsive " src="pictures/usaHome.jpg" alt="">
+            </div>
+            <div class="col-sm-6 wow fadeInLeftBig" data-animation-delay="200">
+                <h3 class="section-heading">United States of America</h3>
+                <p class="lead">Travelling is about finding those things you never knew you were looking for.</p>
+                <p><a class="btn btn-embossed btn-info" href="#" role="button" onclick="openMapUSA()">Explore!</a></p>
+            </div>
+        </div>
+    </div>
+    <!-- /.container -->
+</div>
+
+<div class="content-section-a">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-6 pull-right  wow fadeInRightBig">
+                <img class="img-responsive " src="pictures/chinaHome.jpg" alt="">
+            </div>
+            <div class="col-sm-6 wow fadeInLeftBig" data-animation-delay="200">
+                <h3 class="section-heading">China</h3>
+                <p class="lead">To travel is to take a journey into yourself.</p>
+                <p><a class="btn btn-embossed btn-info" href="#" role="button" onclick="openMapChina()">Explore!</a></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="content-section-b">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-6 pull-right wow fadeInRightBig">
+                <img class="img-responsive " src="pictures/indiaHome.jpg" alt="">
+            </div>
+            <div class="col-sm-6 wow fadeInLeftBig" data-animation-delay="200">
+                <h3 class="section-heading">India</h3>
+                <p class="lead">All journeys have secret destinations.
+                </p>
+                <p><a class="btn btn-embossed btn-info" href="#" role="button" onclick="openMapIndia()">Explore!</a></p>
+            </div>
+        </div>
+    </div>
+</div>
+<footer class="footer-distributed">
+    <div class="footer-right">
+        <a href="#"><i class="fa fa-facebook"></i></a>
+        <a href="#"><i class="fa fa-twitter"></i></a>
+        <a href="#"><i class="fa fa-linkedin"></i></a>
+        <a href="#"><i class="fa fa-github"></i></a>
+    </div>
+    <div class="footer-left">
+        <h4>About</h4>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque et est ut tellus malesuada tincidunt. In id eleifend eros. Mauris dapibus porta semper.</p>
+        <p>Proin malesuada diam eget libero malesuada imperdiet. Nam cursus efficitur libero. Curabitur tristique nec orci sed sagittis.</p>
+        <h5>Aurora &copy; 2016</h5>
+    </div>
+</footer>
+</body>
+<script src="js/myHomeJS.js"></script>
+<script src="js/myJavascript.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="js/wow.min.js"></script>
+<script>
+    new WOW().init();
+</script>
+</html>
+

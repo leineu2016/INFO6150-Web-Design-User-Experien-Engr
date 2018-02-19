@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html >
+<head>
+    <meta charset="utf-8">
+    <title>Aurora</title>
+    <link rel="shortcut icon" href="favicon.ico">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/superfish/1.7.9/css/superfish.min.css">
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/stylesheet1.css">
+    <link rel="stylesheet" href="css/stylesheetscene.css">
+</head>
+<body onload="sceneStatusLoad('Mumbai')">
+<div id="fh5co-wrapper">
+    <div id="fh5co-page">
+        <div id="fh5co-header">
+            <header id="fh5co-header-section">
+                <div class="container">
+                    <div class="nav-header">
+                        <a href="#" class="fh5co-nav-toggle"><i></i></a>
+                        <h1 id="fh5co-logo"><a href="index.html">Aurora</a></h1>
+                        <nav id="fh5co-menu-wrap" role="navigation">
+                            <ul class="sf-menu" id="fh5co-primary-menu">
+                                <li class="active">
+                                    <a href="index.html">Home</a>
+                                </li>
+                                <li><a href="myaccount.html">My Account</a></li>
+                                <li><a href="login.html">Sign out</a></li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </header>
+        </div>
+
+        <div class="fh5co-hero">
+            <div class="fh5co-overlay"></div>
+            <div class="fh5co-cover text-center" data-stellar-background-ratio="0.5" style="background-image: url(pictures/cover_bg_1UP.jpg);">
+                <div class="desc animate-box">
+                    <h2>Mumbai.</h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="fh5co-listing" style="padding-bottom: 0px;">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-4 col-sm-4 fh5co-item-wrap">
+                        <a class="fh5co-listing-item">
+                            <img src="pictures/imgUP-1.jpg" alt="Free HTML5 Bootstrap Template by " class="img-responsive">
+                            <div class="fh5co-listing-copy">
+                                <h2>Rambagh Palace</h2>
+                                <span id="scene1" onclick="changeSceneStatus('1','Mumbai')" class="icon"></span>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-md-4 col-sm-4 fh5co-item-wrap">
+                        <a class="fh5co-listing-item">
+                            <img src="pictures/imgUP-2.jpg" alt="Free HTML5 Bootstrap Template by " class="img-responsive">
+                            <div class="fh5co-listing-copy">
+                                <h2>Itimadud Daulah Mausoleum</h2>
+                                <span id="scene2" onclick="changeSceneStatus('2','Mumbai')" class="icon"></span>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-md-4 col-sm-4 fh5co-item-wrap">
+                        <a class="fh5co-listing-item">
+                            <img src="pictures/imgUP-3.jpg" alt="Free HTML5 Bootstrap Template by " class="img-responsive">
+                            <div class="fh5co-listing-copy">
+                                <h2>Jama Masjid</h2>
+                                <span id="scene3" onclick="changeSceneStatus('3','Mumbai')" class="icon"></span>
+                            </div>
+                        </a>
+                    </div>
+
+                    <div class="col-md-4 col-sm-4 fh5co-item-wrap">
+                        <a class="fh5co-listing-item">
+                            <img  src="pictures/imgUP-4.jpg" alt="Free HTML5 Bootstrap Template by " class="img-responsive">
+                            <div class="fh5co-listing-copy">
+                                <h2>Agra Fort</h2>
+                                <span id="scene4" onclick="changeSceneStatus('4','Mumbai')" class="icon"></span>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-md-4 col-sm-4 fh5co-item-wrap">
+                        <a class="fh5co-listing-item">
+                            <img src="pictures/imgUP-5.jpg" alt="Free HTML5 Bootstrap Template by " class="img-responsive">
+                            <div class="fh5co-listing-copy">
+                                <h2>Taj Mahal</h2>
+                                <span id="scene5" onclick="changeSceneStatus('5','Mumbai')" class="icon"></span>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-md-4 col-sm-4 fh5co-item-wrap">
+                        <a class="fh5co-listing-item">
+                            <img src="pictures/imgUP-6.jpg" alt="Free HTML5 Bootstrap Template by " class="img-responsive">
+                            <div class="fh5co-listing-copy">
+                                <h2>Fatehpur Sikhri</h2>
+                                <span id="scene6" onclick="changeSceneStatus('6','Mumbai')" class="icon"></span>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="fh5co-section" style="text-align: right;">
+            <input type="button" value="Save to city list" style="margin-right: 40px;" onclick="openIternaryIndiaM()" />
+        </div>
+        <div class="fh5co-section" style="margin-top: -80px;">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6 fh5co-news">
+                        <h3>New Blog</h3>
+                        <ul>
+                            <li>
+                                <a href="#">
+                                    <span class="fh5co-date">Nov. 12, 2016</span>
+                                    <h3>Hot air ballooning adds new perspective to Taj Mahal viewing</h3>
+                                    <p>A three-day hot air balloon festival added to the attraction of the city of Agra and lent a new perspective to these magnificent cultural treasures.</p>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <span class="fh5co-date">Nov. 11, 2016</span>
+                                    <h3>A UNIQUE OPPORTUNITY TO EXPLORE UTTAR PRADESH</h3>
+                                    <p>Embedded in the heart of India is Uttar Pradesh, a land where cultures have evolved and religions converge.</p>
+                                    </a>
+
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <span class="fh5co-date">Nov. 10, 2016</span>
+                                    <h3>Agra tourists get their daily dose of cultural treat</h3>
+                                    <p>Tourists to Agra will get a daily dose of cultural treat in an effort to showcase the "pristine art forms" of India to both Indians and foreigners.</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="col-md-6 fh5co-testimonial">
+                        <img src="pictures/newblog-UP.jpg" alt="New Blog Image" class="img-responsive mb20">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<footer class="footer-distributed">
+    <div class="footer-right">
+        <a href="#"><i class="fa fa-facebook"></i></a>
+        <a href="#"><i class="fa fa-twitter"></i></a>
+        <a href="#"><i class="fa fa-linkedin"></i></a>
+        <a href="#"><i class="fa fa-github"></i></a>
+    </div>
+    <div class="footer-left">
+        <h4>About</h4>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque et est ut tellus malesuada tincidunt. In id eleifend eros. Mauris dapibus porta semper.</p>
+        <p>Proin malesuada diam eget libero malesuada imperdiet. Nam cursus efficitur libero. Curabitur tristique nec orci sed sagittis.</p>
+        <h5>Aurora &copy; 2016</h5>
+    </div>
+</footer>
+</body>
+<script src="js/myJavascript.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</html>
+

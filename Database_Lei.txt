@@ -1,0 +1,90 @@
+/*create table Product*/
+create table Product
+(
+  ProductID INTEGER IDENTITY primary key NOT NULL, 
+  ProductTypeID int references ProductType(ProductTypeID) NOT NULL, 
+  ProductDesc varchar(1000) ,
+  ProductPrice varchar(30) NOT NULL,
+  
+)
+
+/*create table SOUVENIER*/
+create table SOUVENIER(  ProductID int primary key NOT NULL,   SouvenierName varchar(50) NOT NULL,  FOREIGN KEY(ProductID) REFERENCES PRODUCT(ProductID))
+
+/*create table SOFTWARE*/
+create table SOFTWARE (  ProductID int primary key NOT NULL,  SoftwareQty varchar(45) NOT NULL,  SoftwareName varchar(50) NOT NULL,  FOREIGN KEY(ProductID) REFERENCES PRODUCT(ProductID))
+
+/*create table HARDWARE*/
+
+create table HARDWARE  (  ProductID int primary key NOT NULL,  HardwareName varchar(50) NOT NULL,  FOREIGN KEY(ProductID) REFERENCES PRODUCT(ProductID))/*create table SIZE*/
+Create table SIZE 
+(
+SizeID int primary key NOT NULL,
+SizeName varchar(45) NOT NULL,
+)
+
+/*create table SOUV_COLOR*/
+Create table SOUV_COLOR 
+(
+ColorID int primary key NOT NULL,
+ColorName varchar(45) NOT NULL,
+)
+
+/*create table HARD_COLOR*/
+Create table HARD_COLOR 
+(
+HardColorID int primary key NOT NULL,
+HardColorName varchar(45) NOT NULL,
+)
+
+/*create table HARD_CAPACITY*/
+Create table HARD_CAPACITY (HardCapacityID int primary key NOT NULL,HardCapacity varchar(45) NOT NULL,)
+
+/*create table SOUVENIER_SIZE_COLOR*/
+
+Create table SOUVENIER_SIZE_COLOR(ProductID int NOT NULL, ColorID int NOT NULL,SizeID int NOT NULL,
+SouvenierQty varchar(45),PRIMARY KEY (ProductID,ColorID,SizeID),FOREIGN KEY(ProductID) REFERENCES SOUVENIER(ProductID),FOREIGN KEY(ColorID) REFERENCES SOUV_COLOR(ColorID),FOREIGN KEY(SizeID) REFERENCES SIZE(SizeID))/*create table HARDWARE_HAS_HARD_COLOR*/
+
+create table HARDWARE_HAS_HARDCOL_HAS_HARDCAP(ProductID int NOT NULL, HardColorID int NOT NULL,HardCapacityID int  NOT NULL,
+HardwareQty varchar(45),PRIMARY KEY (ProductID,HardColorID,HardCapacityID),FOREIGN KEY(ProductID) REFERENCES HARDWARE(ProductID),FOREIGN KEY(HardColorID) REFERENCES HARD_COLOR(HardColorID),FOREIGN KEY(HardCapacityID) REFERENCES HARD_CAPACITY(HardCapacityID))
+
+/*create PROCEDURE add_SOUV_COLOR*/
+
+CREATE PROCEDURE add_SOUV_COLOR@ColorName varchar(45)ASBEGIN Tran T1INSERT INTO[dbo].[SOUV_COLOR]([ColorName])VALUES(@ColorName)IF @@ERROR <> 0ROLLBACK TranELSECOMMIT Tran/*create PROCEDURE add_SIZE*/CREATE PROCEDURE add_SIZE@SizeName varchar(45)ASBEGIN Tran T1INSERT INTO[dbo].[SIZE]([SizeName])VALUES(@SizeName)IF @@ERROR <> 0ROLLBACK TranELSECOMMIT Tran/*create PROCEDURE add_HARD_COLOR*/
+CREATE PROCEDURE add_HARD_COLOR@HardColorName varchar(45)ASBEGIN Tran T1INSERT INTO[dbo].[HARD_COLOR]([HardColorName])VALUES(@HardColorName)IF @@ERROR <> 0ROLLBACK TranELSECOMMIT Tran
+
+/*create PROCEDURE add_HARD_CAPACITY*/
+
+CREATE PROCEDURE add_HARD_CAPACITY@HardCapacity varchar(45)ASBEGIN Tran T1INSERT INTO[dbo].[HARD_CAPACITY]([HardCapacity])VALUES(@HardCapacity)IF @@ERROR <> 0ROLLBACK TranELSECOMMIT Tran/*create PROCEDURE  add_Product*/CREATE PROCEDURE add_Product@ProductName varchar(50),@ProductDescription varchar(100),@ProductPrice varchar(30)ASBEGIN TranINSERT INTO [PRODUCT]([ProductName], [ProductDescription],[ProductPrice])VALUES(@ProductName, @ProductDescription, @ProductPrice)IF @@ERROR <> 0ROLLBACK TranELSECOMMIT Tran
+
+/*create PROCEDURE  add_SOUVENIER_SIZE_COLOR*/
+
+CREATE PROCEDURE add_SOUVENIER_SIZE_COLOR@SizeName varchar(45),@ColorName varchar(45),@SouvenierName varchar(50),@SouvenierQty varchar(45)ASDECLARE @ProductID INTDECLARE @ColorID INTDECLARE @SizeID INTSET @ProductID = (SELECT ProductID FROM SOUVENIER WHERE SouvenierName = @SouvenierName)SET @ColorID = (SELECT ColorID FROM SOUV_COLOR WHERE ColorName = @ColorName )SET @SizeID = (SELECT SizeID FROM SIZE WHERE SizeName= @SizeName)BEGIN TranINSERT INTO [dbo].[SOUVENIER_SIZE_COLOR]([ProductID],[ColorID],[SizeID],[SouvenierQty])VALUES(@ProductID,@ColorID,@SizeID,@SouvenierQty)IF @@ERROR <> 0ROLLBACK TranELSECOMMIT TranGO
+
+/*create PROCEDURE  add_HARDWARE_HAS_HARDCOL_HAS_HARDCAP*/
+
+CREATE PROCEDURE add_HARDWARE_HAS_HARDCOL_HAS_HARDCAP@HardCapacity varchar(45),@HardColorName varchar(45),@HardwareName varchar(50),
+@HardwareQty varchar(45)ASDECLARE @ProductID INTDECLARE @HardColorID INTDECLARE @HardCapacityID INTSET @ProductID = (SELECT ProductID FROM HARDWARE WHERE HardwareName = @HardwareName)SET @HardColorID = (SELECT HardColorID FROM HARD_COLOR WHERE HardColorName = @HardColorName )SET @HardCapacityID = (SELECT HardCapacityID FROM HARDCAPACITY WHERE HardCapacity= @HardCapacity)BEGIN TranINSERT INTO [dbo].[dbo].[HARDWARE_HAS_HARDCOL_HAS_HARDCAP]([ProductID],[HardColorID],[HardCapacityID],[HardwareQty])VALUES(@ProductID,@HardColorID,@HardCapacityID,@HardwareQty )IF @@ERROR <> 0ROLLBACK TranELSECOMMIT TranGO/*create PROCEDURE  add_SOFTWARE*/
+CREATE PROCEDURE add_SOFTWARE@SoftwareName varchar(50),@SoftwareQty varchar(45)ASDECLARE @ProductID INTSET @ProductID = (SELECT ProductID FROM PRODUCT WHERE ProductName = @SoftwareName) BEGIN TranINSERT INTO [dbo].[SOFTWARE]([ProductID],[SoftwareName], [SoftwareQty])VALUES(@ProductID, @SoftwareName, @SoftwareQty)IF @@ERROR <> 0ROLLBACK TranELSECOMMIT Tran
+
+/*create PROCEDURE  add_SOUVENIER*/
+
+CREATE PROCEDURE add_SOUVENIER@SouvenierName varchar(50)ASDECLARE @ProductID INTSET @ProductID = (SELECT ProductID FROM PRODUCT WHERE ProductName = @SouvenierName) BEGIN TranINSERT INTO [dbo].[SOUVENIER]([ProductID],[SouvenierName])VALUES(@ProductID, @SouvenierName)IF @@ERROR <> 0ROLLBACK TranELSECOMMIT Tran
+
+/*create PROCEDURE  add_HARDWARE*/
+
+CREATE PROCEDURE add_HARDWARE@HardWareName varchar(50)ASDECLARE @ProductID INTSET @ProductID = (SELECT ProductID FROM PRODUCT WHERE ProductName = @HardWareName) BEGIN TranINSERT INTO [dbo].[HARDWARE]([ProductID],[HardWareName])VALUES(@ProductID, @HardWareName)IF @@ERROR <> 0ROLLBACK TranELSECOMMIT Tran
+
+
+FUNCTION:
+
+1.max number of Hardware 5 perOrder 
+
+CREATE FUNCTION [dbo].[fnCheckMaxNumberOfHard] (@OrderID INT)RETURNS INTASBEGIN		DECLARE @Ret INT = 0	 	IF EXISTS(	  SELECT OhP.OrderID,SUM( CAST(OhP.Qty AS INT ) )	                     		FROM  ORDER_has_Product OhP			JOIN Hardware H				ON H.ProductID= OhP.ProductID		Where OhP.OrderID=@OrderID	    Group by OhP.OrderID		having SUM( CAST(OhP.Qty AS INT ) ) > 5	)	SET @Ret = 1	RETURN @RetENDGO
+
+
+2.max number of Software 5 perOrder
+
+CREATE FUNCTION [dbo].[fnCheckMaxNumberOfSoft] (@OrderID INT)RETURNS INTASBEGIN		DECLARE @Ret INT = 0	 	IF EXISTS(	  SELECT OhP.OrderID,SUM( CAST(OhP.Qty AS INT ) )	                     		FROM  ORDER_has_Product OhP			JOIN Software S				ON S.ProductID= OhP.ProductID		Where OhP.OrderID=@OrderID	    Group by OhP.OrderID		having SUM( CAST(OhP.Qty AS INT ) ) > 5	)	SET @Ret = 1	RETURN @RetENDGO
+
+ALTER TABLE ORDER_has_PRODUCTADD CONSTRAINT C_fnCheckMaxNumberOfHardCHECK (dbo.fnCheckMaxNumberOfHard( Scope_Identity())=0)ALTER TABLE ORDER_has_PRODUCTADD CONSTRAINT C_fnCheckMaxNumberOfSoftCHECK (dbo.fnCheckMaxNumberOfSoft( Scope_Identity())=0)

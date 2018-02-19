@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Iternary</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/stylesheet1.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.js"></script>
+    <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+</head>
+<body onload="getChinaLocations()">
+<nav class="navbar navbar-default aurora-header navbar-static-top" role="navigation">
+    <div class="container">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#my-navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">AURORA</a>
+        </div>
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="my-navbar">
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <a href="index.html" class="active">Home</a>
+                </li>
+                <li>
+                    <a href="#">My Account</a>
+                </li>
+                <li>
+                    <a href="#">Sign Out</a>
+                </li>
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<div id="draggableContainerC" class="container">
+    <div class="jumbotron hide" id="Beijing">
+        <h3>Beijing</h3>
+        <h4>Places to visit:</h4>
+        <div class="row">
+            <div class="container flex-container">
+                <h4 onclick="addToDay('BJ0')" id="addLocationsBJ0">Beijing National Stadium </h4>
+                <h4 onclick="addToDay('BJ1')" id="addLocationsBJ1"></h4>
+                <h4 onclick="addToDay('BJ2')" id="addLocationsBJ2"></h4>
+                <h4 onclick="addToDay('BJ3')" id="addLocationsBJ3"></h4>
+                <h4 onclick="addToDay('BJ4')" id="addLocationsBJ4"></h4>
+                <h4 onclick="addToDay('BJ5')" id="addLocationsBJ5"></h4>
+            </div>
+        </div>
+        <p><a class="btn cityButton" href="Beijing.html" role="button">Add more Places</a></p>
+    </div>
+    <div class="jumbotron hide" id="Guangzhou">
+        <h3>Guangzhou</h3>
+        <h4>Places to visit:</h4>
+        <div class="row">
+            <div class="container flex-container">
+                <h4 onclick="addToDay('G0')" id="addLocationsG0">Sacred Heart Cathedral</h4>
+                <h4 onclick="addToDay('G1')" id="addLocationsG1"></h4>
+                <h4 onclick="addToDay('G2')" id="addLocationsG2"></h4>
+                <h4 onclick="addToDay('G3')" id="addLocationsG3"></h4>
+                <h4 onclick="addToDay('G4')" id="addLocationsG4"></h4>
+                <h4 onclick="addToDay('G5')" id="addLocationsG5"></h4>
+            </div>
+        </div>
+        <p><a class="btn cityButton" href="Guangzhou.html" role="button">Add more Places</a></p>
+    </div>
+    <div class="jumbotron hide" id="Shanghai">
+        <h3>Shanghai</h3>
+        <h4>Places to visit:</h4>
+        <div class="row">
+            <div class="container flex-container">
+                <h4 onclick="addToDay('SG0')" id="addLocationsSG0">Oriental Pearl Tower</h4>
+                <h4 onclick="addToDay('SG1')" id="addLocationsSG1"></h4>
+                <h4 onclick="addToDay('SG2')" id="addLocationsSG2"></h4>
+                <h4 onclick="addToDay('SG3')" id="addLocationsSG3"></h4>
+                <h4 onclick="addToDay('SG4')" id="addLocationsSG4"></h4>
+                <h4 onclick="addToDay('SG5')" id="addLocationsSG5"></h4>
+            </div>
+        </div>
+        <p><a class="btn cityButton" href="Shanghai.html" role="button">Add more Places</a></p>
+    </div>
+    <p><a class="btn mapButton" onclick="openMapChina()" role="button">Add more Cities</a></p>
+<div id="droppableC" class="row">
+    <div id="addDayContainer" class="container flex-container">
+        <table id="day1">
+            <thead onclick="changeActiveDay(1)">
+                <tr>
+                    <th>Day 1</th>
+                    <th>Expense</th>
+                    <th>Duration</th>
+                </tr>
+            </thead>
+            <tbody id="scenesday1">
+            </tbody>
+            <tfoot id="deleteFoot1"></tfoot>
+        </table>
+        <div id="addDayControl" class="flex-item-add">
+            <div onclick="addDay()" class="fa fa-plus fa-5x plus"></div>
+        </div>
+    </div>
+    </div>
+</div>
+<footer class="footer-distributed">
+    <div class="footer-right">
+        <a href="#"><i class="fa fa-facebook"></i></a>
+        <a href="#"><i class="fa fa-twitter"></i></a>
+        <a href="#"><i class="fa fa-linkedin"></i></a>
+        <a href="#"><i class="fa fa-github"></i></a>
+    </div>
+    <div class="footer-left">
+        <h4>About</h4>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque et est ut tellus malesuada tincidunt. In id eleifend eros. Mauris dapibus porta semper.</p>
+        <p>Proin malesuada diam eget libero malesuada imperdiet. Nam cursus efficitur libero. Curabitur tristique nec orci sed sagittis.</p>
+        <h5>Aurora &copy; 2016</h5>
+    </div>
+</footer>
+</body>
+<script src="js/iternary.js"></script>
+</html>

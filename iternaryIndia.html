@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Iternary</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/stylesheet1.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.js"></script>
+    <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+</head>
+<body onload="getIndiaLocations()">
+<nav class="navbar navbar-default aurora-header navbar-static-top" role="navigation">
+    <div class="container">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#my-navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">AURORA</a>
+        </div>
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="my-navbar">
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <a href="index.html" class="active">Home</a>
+                </li>
+                <li>
+                    <a href="#">My Account</a>
+                </li>
+                <li>
+                    <a href="#">Sign Out</a>
+                </li>
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<div class="container">
+    <div class="jumbotron hide" id="Kashmir">
+        <h3>Kashmir</h3>
+        <h4>Places to visit:</h4>
+        <div class="row">
+        <div class="container flex-container">
+            <h4 onclick="addToDay('K0')" id="addLocationsK0">Dal Lake</h4>
+            <h4 onclick="addToDay('K1')" id="addLocationsK1"></h4>
+            <h4 onclick="addToDay('K2')" id="addLocationsK2"></h4>
+            <h4 onclick="addToDay('K3')" id="addLocationsK3"></h4>
+            <h4 onclick="addToDay('K4')" id="addLocationsK4"></h4>
+            <h4 onclick="addToDay('K5')" id="addLocationsK5"></h4>
+            <h4 onclick="addToDay('K6')" id="addLocationsK6"></h4>
+        </div>
+        </div>
+        <p><a class="btn cityButton" href="Kashmir.html" role="button">Add more Places</a></p>
+    </div>
+    <div class="jumbotron hide" id="Mumbai">
+        <h3>Bangalore</h3>
+        <h4>Places to visit:</h4>
+        <div class="row">
+            <div class="container flex-container">
+        <h4 onclick="addToDay('B0')" id="addLocationsB0">Qutb Minar</h4>
+        <h4 onclick="addToDay('B1')" id="addLocationsB1"></h4>
+        <h4 onclick="addToDay('B2')" id="addLocationsB2"></h4>
+        <h4 onclick="addToDay('B3')" id="addLocationsB3"></h4>
+        <h4 onclick="addToDay('B4')" id="addLocationsB4"></h4>
+        <h4 onclick="addToDay('B5')" id="addLocationsB5"></h4>
+        <h4 onclick="addToDay('B6')" id="addLocationsB6"></h4>
+                </div>
+            </div>
+        <p><a class="btn cityButton" href="Bangalore.html" role="button">Add more Places</a></p>
+    </div>
+    <div class="jumbotron hide" id="Bangalore">
+        <h3>Mumbai</h3>
+        <h4>Places to visit:</h4>
+        <div class="row">
+            <div class="container flex-container">
+        <h4 onclick="addToDay('M0')" id="addLocationsM0">Taj Mahal</h4>
+        <h4 onclick="addToDay('M1')" id="addLocationsM1"></h4>
+        <h4 onclick="addToDay('M2')" id="addLocationsM2"></h4>
+        <h4 onclick="addToDay('M3')" id="addLocationsM3"></h4>
+        <h4 onclick="addToDay('M4')" id="addLocationsM4"></h4>
+        <h4 onclick="addToDay('M5')" id="addLocationsM5"></h4>
+        <h4 onclick="addToDay('M6')" id="addLocationsM6"></h4>
+                </div>
+            </div>
+        <p><a class="btn cityButton" href="Mumbai.html" role="button">Add more Places</a></p>
+    </div>
+    <p><a class="btn mapButton" onclick="openMapIndia()" role="button">Add more Cities</a></p>
+</div>
+
+<div class="row">
+    <div id="addDayContainer" class="container flex-container">
+        <table id="day1">
+            <thead onclick="changeActiveDay(1)">
+                <tr>
+                    <th>Day 1</th>
+                    <th>Expense</th>
+                    <th>Duration</th>
+                </tr>
+            </thead>
+            <tbody id="scenesday1">
+            </tbody>
+            <tfoot id="deleteFoot1"></tfoot>
+        </table>
+        <div id="addDayControl" class="flex-item-add">
+            <div onclick="addDay()" class="fa fa-plus fa-5x plus"></div>
+        </div>
+    </div>
+</div>
+<footer class="footer-distributed">
+    <div class="footer-right">
+        <a href="#"><i class="fa fa-facebook"></i></a>
+        <a href="#"><i class="fa fa-twitter"></i></a>
+        <a href="#"><i class="fa fa-linkedin"></i></a>
+        <a href="#"><i class="fa fa-github"></i></a>
+    </div>
+    <div class="footer-left">
+        <h4>About</h4>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque et est ut tellus malesuada tincidunt. In id eleifend eros. Mauris dapibus porta semper.</p>
+        <p>Proin malesuada diam eget libero malesuada imperdiet. Nam cursus efficitur libero. Curabitur tristique nec orci sed sagittis.</p>
+        <h5>Aurora &copy; 2016</h5>
+    </div>
+</footer>
+</body>
+<script src="js/iternary.js"></script>
+</html>

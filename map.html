@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html >
+<head>
+    <meta charset="utf-8">
+    <title>Aurora</title>
+    <link rel="shortcut icon" href="favicon.ico">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/superfish/1.7.9/css/superfish.min.css">
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/stylesheet1.css">
+    <link rel="stylesheet" href="css/stylesheetmap.css">
+
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&key=AIzaSyCvJqEAK2yq3WgIHvlbgNdwqgSCCBB99ks"></script>
+    <script type="text/javascript">
+        function saveCityList()
+        {
+            window.location = "citylist.html";
+        }
+
+        function checkCity(city, cityList)
+        {
+            if (cityList.indexOf(city) != -1)
+            {
+                return true;
+            }
+            return false;
+        }
+
+        function stringToArray(cityList)
+        {
+            if(cityList == null || cityList == "")
+            {
+                return new Array();
+            }
+            return cityList.split(",");
+        }
+
+        function arrayRemove(city, cityList)
+        {
+            if(cityList == null || cityList == "")
+            {
+                return "";
+            }
+
+            for (var i = 0; i < cityList.length; i++)
+            {
+                if(cityList[i] == city)
+                {
+                    cityList.splice(i, 1);
+                }
+            }
+            return cityList;
+        }
+
+        var iwopened=null;
+        var map = null;
+        var geocoder = null;
+        var markers = new Array();
+        var interval = setInterval("updateMarker()", 1000);
+
+        function clearAndShowMarker(country)
+        {
+            for (var i = 0; i < markers.length; i++)
+            {
+
+                if (markers[i].title.indexOf(country) != -1)
+                {
+                    markers[i].setMap(map);
+                }
+                else
+                {
+                    markers[i].setMap(null);
+                }
+            }
+        }
+
+        function chagneMarkerStatus(city, country, selected)
+        {
+            for (var i = 0; i < markers.length; i++)
+            {
+                if (markers[i].title == country+":"+city)
+                {
+                    if (selected == "1")
+                    {
+                        markers[i].setMap(null);
+                        markers[i].icon = 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png';
+                        markers[i].setMap(map);
+                    }
+                    else
+                    {
+                        markers[i].setMap(null);
+                        markers[i].icon = 'http://maps.google.com/mapfiles/ms/icons/red-dot.png';
+                        markers[i].setMap(map);
+                    }
+                }
+            }
+        }
+
+
+        function changeCityStatus(city, country)
+        {
+            var cityList = localStorage.getItem("cityList-"+ country);
+            cityList = stringToArray(cityList);
+            var images_plus = document.getElementById("images_plus_"+city);
+            if(images_plus.alt == "plusimg")
+            {
+                if (cityList == null || cityList == "")
+                {
+                    cityList = new Array();
+                }
+                cityList.push(city);
+                localStorage.setItem("cityList-"+ country, cityList);
+                images_plus.src = "pictures/images_minus.jpg";
+                images_plus.alt = "minusimg";
+                chagneMarkerStatus(city, country, "1");
+
+            }
+            else if(images_plus.alt == "minusimg")
+            {
+                cityList = arrayRemove(city,cityList);
+                localStorage.setItem("cityList-"+ country, cityList);
+                images_plus.src = "pictures/images_plus.jpg";
+                images_plus.alt = "plusimg";
+                chagneMarkerStatus(city, country, "0");
+            }
+        }
+
+
+        function addMarker(city, country)
+        {
+
+            geocoder = new google.maps.Geocoder;
+            geocoder.geocode( { 'address': city+', '+country}, function(results, status)
+            {
+                if (status == google.maps.GeocoderStatus.OK)
+                {
+                    var cityList = localStorage.getItem("cityList-"+country);
+
+                    if (cityList != null && cityList != "" && checkCity(city, cityList))
+                    {
+                        var marker = new google.maps.Marker(
+                                {
+                                    map: null,
+                                    position: results[0].geometry.location,
+                                    title: country+':'+city,
+                                    icon: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png'
+                                });
+
+                        var contentString = '<div class="marker" id="content"><img onclick="changeCityStatus(\''+city+'\', \''+country+'\')" id="images_plus_'+city+'" height="20px" width="20px" src="pictures/images_minus.jpg" alt="minusimg"/>&nbsp;<a href="'+city+'.html">'+city+'</a></div>';
+                    }
+                    else
+                    {
+                        var marker = new google.maps.Marker(
+                                {
+                                    map: null,
+                                    position: results[0].geometry.location,
+                                    title: country+':'+city,
+                                    icon: 'http://maps.google.com/mapfiles/ms/icons/red-dot.png'
+                                });
+                        var contentString = '<div class="marker" id="content"><img onclick="changeCityStatus(\''+city+'\', \''+country+'\')" id="images_plus_'+city+'" height="20px" width="20px" src="pictures/images_plus.jpg" alt="plusimg"/>&nbsp;<a href="'+city+'.html">'+city+'</a></div>';
+                    }
+
+
+                    var infowindow = new google.maps.InfoWindow({
+                        content: contentString
+                    });
+
+                    google.maps.event.addListener(marker, 'click', function () {
+                        if(iwopened!=null)
+                        {
+                            iwopened.close();
+                        }
+                        infowindow.open(map, marker);
+                        iwopened = infowindow;
+                    });
+                    markers.push(marker);
+                }
+            });
+        }
+
+        function infoWindowContent()
+        {
+
+            addMarker("San Franscio", "US");
+            addMarker("New York", "US");
+            addMarker("Boston", "US");
+            addMarker("Beijing", "CN");
+            addMarker("Shanghai", "CN");
+            addMarker("Guangzhou", "CN");
+            addMarker("Mumbai", "IN");
+            addMarker("Kashmir", "IN");
+            addMarker("Bangalore", "IN");
+        }
+
+        function updateMarker()
+        {
+
+            if (markers.length == 9)
+            {
+                clearInterval(interval);
+                clearAndShowMarker(sessionStorage.getItem("countryAB"));
+            }
+        }
+
+        function updateTitleAndContent(country)
+        {
+            var header1 = document.getElementById("header1");
+            var link1 = document.getElementById("link1");
+            var link2 = document.getElementById("link2");
+            var link3 = document.getElementById("link3");
+            var title1 = document.getElementById("title1");
+            var title2 = document.getElementById("title2");
+            var title3 = document.getElementById("title3");
+            var content1 = document.getElementById("content1");
+            var content2 = document.getElementById("content2");
+            var content3 = document.getElementById("content3");
+            if(country == "CN")
+            {
+                header1.innerHTML = "China";
+                link1.href = "Beijing.html";
+                title1.innerHTML = "Beijing";
+                content1.innerHTML = "asdfasjdhfahsdjfklasjdfklhasjkdfhajk shdfjklahskjdhfkjashdfjkahsjkdfhkajshdfj kashdjkfhkjashdfkhakjsdhfkjshdjkfhasjkdfhsjhdfkjs";
+                link2.href = "Shanghai.html";
+                title2.innerHTML = "Shanghai";
+                content2.innerHTML = "修改这里 asdfasjdhfahsdjfklasjdfklhasjkdfhajk shdfjklahskjdhfkjashdfjkahsjkdfhkajshdfj kashdjkfhkjashdfkhakjsdhfkjshdjkfhasjkdfhsjhdfkjs";
+                link3.href = "Guangzhou.html";
+                title3.innerHTML = "Guangzhou";
+                content3.innerHTML = "修改这里 asdfasjdhfahsdjfklasjdfklhasjkdfhajk shdfjklahskjdhfkjashdfjkahsjkdfhkajshdfj kashdjkfhkjashdfkhakjsdhfkjshdjkfhasjkdfhsjhdfkjs";
+
+            }
+            else if (country == "US")
+            {
+                header1.innerHTML = "USA";
+                link1.href = "New York.html";
+                title1.innerHTML = "New York";
+                content1.innerHTML = "修改这里 asdfasjdhfahsdjfklasjdfklhasjkdfhajk shdfjklahskjdhfkjashdfjkahsjkdfhkajshdfj kashdjkfhkjashdfkhakjsdhfkjshdjkfhasjkdfhsjhdfkjs";
+                link2.href = "#";
+                title2.innerHTML = "Seattle";
+                content2.innerHTML = "修改这里 asdfasjdhfahsdjfklasjdfklhasjkdfhajk shdfjklahskjdhfkjashdfjkahsjkdfhkajshdfj kashdjkfhkjashdfkhakjsdhfkjshdjkfhasjkdfhsjhdfkjs";
+                link3.href = "#";
+                title3.innerHTML = "Boston";
+                content3.innerHTML = "修改这里 asdfasjdhfahsdjfklasjdfklhasjkdfhajk shdfjklahskjdhfkjashdfjkahsjkdfhkajshdfj kashdjkfhkjashdfkhakjsdhfkjshdjkfhasjkdfhsjhdfkjs";
+            }
+            else if (country == "IN")
+            {
+                header1.innerHTML = "India";
+                link1.href = "Kashmir.html";
+                title1.innerHTML = "Kashmir";
+                content1.innerHTML = "修改这里 asdfasjdhfahsdjfklasjdfklhasjkdfhajk shdfjklahskjdhfkjashdfjkahsjkdfhkajshdfj kashdjkfhkjashdfkhakjsdhfkjshdjkfhasjkdfhsjhdfkjs";
+                link2.href = "#";
+                title2.innerHTML = "Mumbai";
+                content2.innerHTML = "修改这里 asdfasjdhfahsdjfklasjdfklhasjkdfhajk shdfjklahskjdhfkjashdfjkahsjkdfhkajshdfj kashdjkfhkjashdfkhakjsdhfkjshdjkfhasjkdfhsjhdfkjs";
+                link3.href = "#";
+                title3.innerHTML = "Bangalore";
+                content3.innerHTML = "修改这里 asdfasjdhfahsdjfklasjdfklhasjkdfhajk shdfjklahskjdhfkjashdfjkahsjkdfhkajshdfj kashdjkfhkjashdfkhakjsdhfkjshdjkfhasjkdfhsjhdfkjs";
+            }
+        }
+
+        function initialize()
+        {
+            var searchcountry = sessionStorage.getItem("searchCountry");
+            updateTitleAndContent(sessionStorage.getItem("countryAB"));
+            geocoder = new google.maps.Geocoder;
+            geocoder.geocode( { 'address': searchcountry+', '+searchcountry}, function(results, status)
+            {
+                if (status == google.maps.GeocoderStatus.OK)
+                {
+                    var mapOptions =
+                    {
+                        zoom:4,
+                        mapTypeControl: false,
+                        scaleControl: false,
+                        navigationControl: false,
+                        streetViewControl: false,
+                        center: results[0].geometry.location,
+                        styles: [
+                            {elementType: 'geometry', stylers: [{color: '#242f3e'}]},
+                            {elementType: 'labels.text.stroke', stylers: [{color: '#242f3e'}]},
+                            {elementType: 'labels.text.fill', stylers: [{color: '#e1e3e8'}]},
+                            {
+                                featureType: 'administrative.locality',
+                                elementType: 'labels.text.fill',
+                                stylers: [{color: '#d59563'}]
+                            },
+                            {
+                                featureType: 'poi',
+                                elementType: 'labels.text.fill',
+                                stylers: [{color: '#d59563'}]
+                            },
+                            {
+                                featureType: 'poi.park',
+                                elementType: 'geometry',
+                                stylers: [{color: '#263c3f'}]
+                            },
+                            {
+                                featureType: 'poi.park',
+                                elementType: 'labels.text.fill',
+                                stylers: [{color: '#6b9a76'}]
+                            },
+                            {
+                                featureType: 'road',
+                                elementType: 'geometry',
+                                stylers: [{color: '#38414e'}]
+                            },
+                            {
+                                featureType: 'road',
+                                elementType: 'geometry.stroke',
+                                stylers: [{color: '#212a37'}]
+                            },
+                            {
+                                featureType: 'road',
+                                elementType: 'labels.text.fill',
+                                stylers: [{color: '#9ca5b3'}]
+                            },
+                            {
+                                featureType: 'road.highway',
+                                elementType: 'geometry',
+                                stylers: [{color: '#746855'}]
+                            },
+                            {
+                                featureType: 'road.highway',
+                                elementType: 'geometry.stroke',
+                                stylers: [{color: '#1f2835'}]
+                            },
+                            {
+                                featureType: 'road.highway',
+                                elementType: 'labels.text.fill',
+                                stylers: [{color: '#f3d19c'}]
+                            },
+                            {
+                                featureType: 'transit',
+                                elementType: 'geometry',
+                                stylers: [{color: '#2f3948'}]
+                            },
+                            {
+                                featureType: 'transit.station',
+                                elementType: 'labels.text.fill',
+                                stylers: [{color: '#d59563'}]
+                            },
+                            {
+                                featureType: 'water',
+                                elementType: 'geometry',
+                                stylers: [{color: '#17263c'}]
+                            },
+                            {
+                                featureType: 'water',
+                                elementType: 'labels.text.fill',
+                                stylers: [{color: '#515c6d'}]
+                            },
+                            {
+                                featureType: 'water',
+                                elementType: 'labels.text.stroke',
+                                stylers: [{color: '#17263c'}]
+                            }
+                        ]
+                    };
+                    map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+                    var layer = new google.maps.FusionTablesLayer(
+                            {
+                                query:
+                                {
+                                    select: 'geometry',
+                                    from: '1N2LBk4JHwWpOY4d9fobIn27lfnZ5MDy-NoqqRpk',
+                                    where: "ISO_2DIGIT IN ('US','CN', 'IN')"
+                                }
+                            });
+                    layer.setMap(map);
+                    infoWindowContent();
+                    google.maps.event.addListener(map, 'zoom_changed', function() {
+                        if (map.getZoom() < 3)
+                        {
+                            map.setZoom(3);
+                        }
+                        else if(map.getZoom() > 5)
+                        {
+                            map.setZoom(5);
+                        }
+                    });
+                    google.maps.event.addListener(layer, "click", function(event)
+                    {
+                        if (event.row.ISO_2DIGIT.value == "CN")
+                        {
+                            event.infoWindowHtml = "China";
+                            sessionStorage.setItem("searchCountry", "China");
+                            sessionStorage.setItem("countryAB", "CN");
+                            clearAndShowMarker("CN");
+                            updateTitleAndContent("CN");
+                        }
+                        else if (event.row.ISO_2DIGIT.value == "IN")
+                        {
+                            event.infoWindowHtml = "India";
+                            sessionStorage.setItem("searchCountry", "India");
+                            sessionStorage.setItem("countryAB", "IN");
+                            clearAndShowMarker("IN");
+                            updateTitleAndContent("IN");
+                        }
+                        else if (event.row.ISO_2DIGIT.value == "US")
+                        {
+                            event.infoWindowHtml = "USA";
+                            sessionStorage.setItem("searchCountry", "America");
+                            sessionStorage.setItem("countryAB", "US");
+                            clearAndShowMarker("US");
+                            updateTitleAndContent("US");
+                        }
+                    }, false);
+
+
+
+                }
+                else
+                {
+                    alert('Geocode was not successful for the following reason: ' + status);
+                }
+
+            });
+        }
+        google.maps.event.addDomListener(window, 'load', initialize);
+    </script>
+</head>
+<body onload="initialize()">
+<div id="fh5co-wrapper">
+    <div id="fh5co-page">
+        <nav class="navbar navbar-default aurora-header navbar-static-top" role="navigation">
+            <div class="container">
+                <!-- Brand and toggle get grouped for better mobile display -->
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#my-navbar">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="#">AURORA</a>
+                </div>
+                <!-- Collect the nav links, forms, and other content for toggling -->
+                <div class="collapse navbar-collapse" id="my-navbar">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li>
+                            <a href="index.html" class="active">Home</a>
+                        </li>
+                        <li>
+                            <a href="#">My Account</a>
+                        </li>
+                        <li>
+                            <a href="#">Sign Out</a>
+                        </li>
+                    </ul>
+                </div>
+                <!-- /.navbar-collapse -->
+            </div>
+            <!-- /.container -->
+        </nav>
+        <div class="fh5co-section" style="text-align: right; margin-top: -60px">
+            <input type="button" value="Save to city list" style="margin-right: 40px;" onclick="saveCityList()" />
+        </div>
+        <div class="fh5co-section" style="margin-top: -170px;">
+            <div class="mapdiv" id="map-canvas" style="height: 500px"></div>
+        </div>
+        <div class="fh5co-section" style="margin-top: -100px;">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6 fh5co-news">
+                        <h3 id="header1"></h3>
+                        <ul>
+                            <li>
+                                <a id="link1" href="#">
+                                    <h3 id="title1"></h3>
+                                    <p id="content1"></p>
+                                </a>
+                            </li>
+                            <li>
+                                <a id="link2" href="#">
+                                    <h3 id="title2"></h3>
+                                    <p id="content2"></p>
+                                </a>
+                            </li>
+                            <li>
+                                <a id="link3" href="#">
+                                    <h3 id="title3"></h3>
+                                    <p id="content3"></p>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<footer class="footer-distributed">
+    <div class="footer-right">
+        <a href="#"><i class="fa fa-facebook"></i></a>
+        <a href="#"><i class="fa fa-twitter"></i></a>
+        <a href="#"><i class="fa fa-linkedin"></i></a>
+        <a href="#"><i class="fa fa-github"></i></a>
+    </div>
+    <div class="footer-left">
+        <h4>About</h4>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque et est ut tellus malesuada tincidunt. In id eleifend eros. Mauris dapibus porta semper.</p>
+        <p>Proin malesuada diam eget libero malesuada imperdiet. Nam cursus efficitur libero. Curabitur tristique nec orci sed sagittis.</p>
+        <h5>Aurora &copy; 2016</h5>
+    </div>
+</footer>
+</body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script>
+    function saveCityList(){
+        var country = sessionStorage.getItem("countryAB");
+        if(country == 'US'){
+            window.location = "iternaryAmerica.html";
+        }else if(country == 'IN') {
+            var India = localStorage.getItem('cityList-IN');
+            console.log(India);
+            window.location = "iternaryIndia.html";
+        }else if(country == 'CN') {
+            window.location = "iternaryChina.html";
+        }
+    }
+</script>
+</html>
+
